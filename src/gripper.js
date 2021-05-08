@@ -56,70 +56,24 @@ const gripper = (path) => {
 
   /**
    *
-   * @param {Number} jawCloseAngle
-   * @param {Number} jawOpenAngle
-   * @param {Number} liftUpAngle
-   * @param {Number} liftDownAngle
+   * @param {Number} angle
    * @return {Promise}
    */
-  function config(jawCloseAngle, jawOpenAngle, liftUpAngle, liftDownAngle) {
-    return new Promise(async (resolve) => {
-      writeToSerialPort([
-        requestStartFlag,
-        0x02,
-        jawCloseAngle,
-        jawOpenAngle,
-        liftUpAngle,
-        liftDownAngle,
-      ]);
-
-      await open();
-      await lower();
-
+  function setJawAngle(angle) {
+    return new Promise((resolve) => {
+      writeToSerialPort([requestStartFlag, 0x02, angle]);
       setTimeout(resolve, 250);
     });
   }
 
   /**
    *
+   * @param {Number} angle
    * @return {Promise}
    */
-  function open() {
+  function setLiftAngle(angle) {
     return new Promise((resolve) => {
-      writeToSerialPort([requestStartFlag, 0x03]);
-      setTimeout(resolve, 250);
-    });
-  }
-
-  /**
-   *
-   * @return {Promise}
-   */
-  function close() {
-    return new Promise((resolve) => {
-      writeToSerialPort([requestStartFlag, 0x04]);
-      setTimeout(resolve, 250);
-    });
-  }
-
-  /**
-   *
-   * @return {Promise}
-   */
-  function lift() {
-    return new Promise((resolve) => {
-      writeToSerialPort([requestStartFlag, 0x05]);
-      setTimeout(resolve, 250);
-    });
-  }
-
-  /**
-   *
-   * @return {Promise}
-   */
-  function lower() {
-    return new Promise((resolve) => {
-      writeToSerialPort([requestStartFlag, 0x06]);
+      writeToSerialPort([requestStartFlag, 0x03, angle]);
       setTimeout(resolve, 250);
     });
   }
@@ -148,11 +102,8 @@ const gripper = (path) => {
   return {
     init,
     isReady,
-    config,
-    open,
-    close,
-    lift,
-    lower,
+    setJawAngle,
+    setLiftAngle,
     on: eventEmitter.on.bind(eventEmitter),
     off: eventEmitter.off.bind(eventEmitter),
   };
