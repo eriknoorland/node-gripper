@@ -1,5 +1,5 @@
 const Gripper = require('../index');
-const gripper = Gripper('/dev/tty.usbmodem141301');
+const gripper = Gripper('/dev/tty.usbserial-14130');
 
 const jawCloseAngle = 35;
 const jawWideAngle = 85;
