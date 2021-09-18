@@ -15,6 +15,6 @@
   "dependencies": {
     "cobs": "^0.2.1",
     "robotlib": "github:eriknoorland/node-robotlib",
-    "serialport": "^9.0.7"
+    "serialport": "^8.0.8"
   }
 }

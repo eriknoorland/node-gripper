@@ -16,11 +16,6 @@ const gripper = (path) => {
   let parser;
 
   /**
-   * Constructor
-   */
-  function constructor() {}
-
-  /**
    * Init
    * @return {Promise}
    */
@@ -78,17 +73,14 @@ const gripper = (path) => {
     });
   }
 
-  /**
-   * Writes the given buffer to the serial port
-   * @param {Array} data
-   */
   function writeToSerialPort(data) {
     port.write(cobs.encode(Buffer.from(data), true));
-  };
+  }
 
-  /**
-   * Port open event handler
-   */
+  function close() {
+    port.close();
+  }
+
   function onPortOpen() {
     port.flush(error => {
       if (error) {
@@ -97,9 +89,8 @@ const gripper = (path) => {
     });
   }
 
-  constructor();
-
   return {
+    close,
     init,
     isReady,
     setJawAngle,
