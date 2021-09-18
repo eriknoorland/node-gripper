@@ -73,12 +73,20 @@ const gripper = (path) => {
     });
   }
 
-  function writeToSerialPort(data) {
-    port.write(cobs.encode(Buffer.from(data), true));
+  /**
+   * Closes the serial connection
+   * @returns {Promise}
+   */
+  function close() {
+    return new Promise(resolve => {
+      port.close(error => {
+        resolve();
+      });
+    });
   }
 
-  function close() {
-    port.close();
+  function writeToSerialPort(data) {
+    port.write(cobs.encode(Buffer.from(data), true));
   }
 
   function onPortOpen() {
