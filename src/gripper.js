@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 const SerialPort = require('serialport');
 const cobs = require('cobs');
 const Parser = require('./Parser');
+const numberToByteArray = require('./utils/numberToByteArray');
 
 /**
  * Gripper
@@ -52,24 +53,30 @@ const gripper = (path) => {
   /**
    *
    * @param {Number} angle
+   * @param {Number} duration
    * @return {Promise}
    */
-  function setJawAngle(angle) {
+  function setJawAngle(angle, duration = 500) {
     return new Promise((resolve) => {
-      writeToSerialPort([requestStartFlag, 0x02, angle]);
-      setTimeout(resolve, 250);
+      const durationBytes = numberToByteArray(duration, 2);
+
+      writeToSerialPort([requestStartFlag, 0x02, angle, ...durationBytes]);
+      setTimeout(resolve, duration + 100);
     });
   }
 
   /**
    *
    * @param {Number} angle
+   * @param {Number} duration
    * @return {Promise}
    */
-  function setLiftAngle(angle) {
+  function setLiftAngle(angle, duration = 500) {
     return new Promise((resolve) => {
-      writeToSerialPort([requestStartFlag, 0x03, angle]);
-      setTimeout(resolve, 250);
+      const durationBytes = numberToByteArray(duration, 2);
+
+      writeToSerialPort([requestStartFlag, 0x03, angle, ...durationBytes]);
+      setTimeout(resolve, duration + 100);
     });
   }
 
